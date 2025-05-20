@@ -349,7 +349,6 @@
     subjectCell.className = "subject-cell";
 
     const subjectSelect = createSubjectSelect(task.subjectMain || "");
-    // ADD THIS LINE TO FIX MAPEH INLINE STYLE ON LOAD
     if (task.subjectMain === "MAPEH") {
       subjectSelect.classList.add("mapeh-selected");
     }
@@ -515,7 +514,6 @@
     removeTaskBtn.style.backgroundColor = removeMode ? "#ffcccc" : "";
   });
 
-  // --- Audio playback on header click ---
   const audioFiles = ["coconutmall.mp3", "subwaysurfers.mp3", "minuet.mp3", "lmfftclap.mp3"];
   let audio = new Audio();
 
@@ -525,7 +523,6 @@
     audio.play().catch(e => console.log("Audio play failed:", e));
   });
 
-  // Initial load
   loadTasks();
 
   function updateRowNumbers() {
