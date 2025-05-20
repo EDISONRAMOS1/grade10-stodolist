@@ -147,14 +147,14 @@
       box-sizing: border-box;
     }
 
-    select.subject-main.mapeh-selected {
+  .subject-cell select.subject-main.mapeh-selected {
   width: 65%;
   display: inline-block;
   vertical-align: middle;
   margin-right: 2%;
 }
 
-select.subject-branch.mapeh-visible {
+.subject-cell select.subject-branch.mapeh-visible {
   width: 33%;
   display: inline-block;
   vertical-align: middle;
@@ -310,21 +310,23 @@ select.subject-branch.mapeh-visible {
       if (!row) return;
 
       if (select.value === "MAPEH") {
-        if (!row.querySelector(".subject-branch")) {
-          const branchSelect = document.createElement("select");
-          branchSelect.className = "subject-branch mapeh-visible";
-          mapehBranches.forEach(branch => {
-            const option = document.createElement("option");
-            option.value = branch;
-            option.textContent = branch;
-            branchSelect.appendChild(option);
-          });
-          row.querySelector(".subject-cell").appendChild(branchSelect);
-        }
-      } else {
-        const branchSelect = row.querySelector(".subject-branch");
-        if (branchSelect) branchSelect.remove();
-      }
+  select.classList.add("mapeh-selected");
+  if (!row.querySelector(".subject-branch")) {
+    const branchSelect = document.createElement("select");
+    branchSelect.className = "subject-branch mapeh-visible";
+    mapehBranches.forEach(branch => {
+      const option = document.createElement("option");
+      option.value = branch;
+      option.textContent = branch;
+      branchSelect.appendChild(option);
+    });
+    row.querySelector(".subject-cell").appendChild(branchSelect);
+  }
+} else {
+  select.classList.remove("mapeh-selected");
+  const branchSelect = row.querySelector(".subject-branch");
+  if (branchSelect) branchSelect.remove();
+}
       updateSubjectColors(row);
       saveTasks();
     });
