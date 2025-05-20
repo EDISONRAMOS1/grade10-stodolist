@@ -129,6 +129,7 @@
       display: inline-block;
     }
 
+
     select.subject-main,
     select.subject-branch {
       font-weight: 600 !important;
@@ -147,7 +148,7 @@
       box-sizing: border-box;
     }
 
-.subject-cell select.subject-main.mapeh-selected {
+  .subject-cell select.subject-main.mapeh-selected {
   width: 65%;
   display: inline-block;
   vertical-align: middle;
@@ -262,7 +263,7 @@
       <button id="remove-task-btn">Remove Task</button>
     </div>
   </div>
-<br><br><br><br>
+
   <script>
   const subjects = [
     { name: "", color: "#ffffff" },
@@ -310,23 +311,24 @@
       if (!row) return;
 
       if (select.value === "MAPEH") {
-  select.classList.add("mapeh-selected");
-  if (!row.querySelector(".subject-branch")) {
-    const branchSelect = document.createElement("select");
-    branchSelect.className = "subject-branch mapeh-visible";
-    mapehBranches.forEach(branch => {
-      const option = document.createElement("option");
-      option.value = branch;
-      option.textContent = branch;
-      branchSelect.appendChild(option);
-    });
-    row.querySelector(".subject-cell").appendChild(branchSelect);
-  }
-} else {
-  select.classList.remove("mapeh-selected");
-  const branchSelect = row.querySelector(".subject-branch");
-  if (branchSelect) branchSelect.remove();
-}
+        select.classList.add("mapeh-selected");
+        if (!row.querySelector(".subject-branch")) {
+          const branchSelect = document.createElement("select");
+          branchSelect.className = "subject-branch mapeh-visible";
+          mapehBranches.forEach(branch => {
+            const option = document.createElement("option");
+            option.value = branch;
+            option.textContent = branch;
+            branchSelect.appendChild(option);
+          });
+          row.querySelector(".subject-cell").appendChild(branchSelect);
+          branchSelect.addEventListener("change", () => saveTasks());
+        }
+      } else {
+        select.classList.remove("mapeh-selected");
+        const branchSelect = row.querySelector(".subject-branch");
+        if (branchSelect) branchSelect.remove();
+      }
       updateSubjectColors(row);
       saveTasks();
     });
@@ -344,7 +346,12 @@
 
     const subjectCell = document.createElement("td");
     subjectCell.className = "subject-cell";
+
     const subjectSelect = createSubjectSelect(task.subjectMain || "");
+    // ADD THIS LINE TO FIX MAPEH INLINE STYLE ON LOAD
+    if (task.subjectMain === "MAPEH") {
+      subjectSelect.classList.add("mapeh-selected");
+    }
     subjectCell.appendChild(subjectSelect);
 
     if (task.subjectMain === "MAPEH" && task.subjectBranch) {
@@ -429,7 +436,7 @@
     const rows = tasksTbody.querySelectorAll("tr");
     rows.forEach((row, i) => {
       const numberCell = row.querySelector(".number-cell");
-      numberCell.textContent = (i + 1).toString();
+      numberCell.textContent = String(i + 1).padStart(3, '0');
     });
   }
 
@@ -520,14 +527,14 @@
   // Initial load
   loadTasks();
 
-function updateRowNumbers() {
-  const rows = tasksTbody.querySelectorAll("tr");
-  rows.forEach((row, i) => {
-    const numberCell = row.querySelector(".number-cell");
-    numberCell.textContent = String(i + 1).padStart(3, '0');
-  });
-}
+  function updateRowNumbers() {
+    const rows = tasksTbody.querySelectorAll("tr");
+    rows.forEach((row, i) => {
+      const numberCell = row.querySelector(".number-cell");
+      numberCell.textContent = String(i + 1).padStart(3, '0');
+    });
+  }
   </script>
-<br><br>
+
 </body>
 </html>
