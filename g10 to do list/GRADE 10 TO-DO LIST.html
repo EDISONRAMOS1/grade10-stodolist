@@ -6,7 +6,7 @@
   <title>Grade 10's TO-DO LIST</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 <link rel="icon" href="scihi.png" type="image/png">
-<style>
+ <style>
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -14,29 +14,112 @@
       background-color: #fff;
     }
 
-#play-header {
-  width: 1300px;
-  height: auto;
-  cursor: pointer;
-  display: block;
-  margin: 0 auto 10px auto;
-  user-select: none;
-  max-width: none;
+.subject-filter {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1.5px solid black;
+  background-color: white;
+  color: black;
+  height: 38px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: none; /* removes the ^ icon */
 }
 
-.container {
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
-  overflow-x: visible;
+body.dark .subject-filter {
+  background-color: #333;
+  color: white;
+  border-color: white;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+body.dark .subject-filter option {
+  background-color: #333 !important;
+  color: #f0f0f0 !important;
+}
+
+
+/* Dark mode override */
+body.dark-mode .subject-filter {
+  background-color: #333;
+  color: white;
+  border-color: white;
+}
+
+body.dark select option {
+  background-color: #333 !important;
+  color: #f0f0f0 !important;
+}
+
+/* You can override for branch select specifically if needed */
+body.dark select.subject-branch option {
+  background-color: #4f4f26 !important; /* matching dark MAPEH branch color */
+  color: #f0f0f0 !important;
+}
+
+    body, tr, select, input, button {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    #play-header {
+      transition: 0.3s ease;
+    }
+
+    body.switching-theme #play-header {
+      opacity: 1;
+    }
+
+    #play-header {
+      width: 1300px;
+      height: auto;
+      cursor: pointer;
+      display: block;
+      margin: 0 auto 10px auto;
+      user-select: none;
+      max-width: none;
+    }
+
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+      overflow-x: visible;
+    }
+
+    /* RESPONSIVE TABLE WRAPPER */
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      margin: 0 auto;
+    }
 
     table {
-      width: 100%;
+      width: 1300px; /* keep fixed width on large screens */
+      margin-left: auto;
+      margin-right: auto;
       border-collapse: collapse;
       background-color: white;
       table-layout: fixed;
-      min-width: 850px;
+      /* make width 100% on smaller screens */
+      max-width: 100%;
+    }
+
+    @media (max-width: 1400px) {
+      #play-header {
+        width: 100%;
+        max-width: 1300px;
+      }
+    }
+    @media (max-width: 1350px) {
+      table {
+        width: 100%;
+      }
     }
 
     th, td {
@@ -148,19 +231,19 @@
       box-sizing: border-box;
     }
 
-  .subject-cell select.subject-main.mapeh-selected {
-  width: 65%;
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 2%;
-}
+    .subject-cell select.subject-main.mapeh-selected {
+      width: 65%;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 2%;
+    }
 
-.subject-cell select.subject-branch.mapeh-visible {
-  width: 33%;
-  display: inline-block;
-  vertical-align: middle;
-  background-color: #ffffcc;
-}
+    .subject-cell select.subject-branch.mapeh-visible {
+      width: 33%;
+      display: inline-block;
+      vertical-align: middle;
+      background-color: #ffffcc;
+    }
 
     select option {
       text-align: center;
@@ -238,13 +321,69 @@
     .buttons-container button:hover {
       background-color: #f0f0f0;
     }
-</style>
-</head>
+
+    body.dark {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+
+    body.dark table {
+      background-color: #2a2a2a;
+    }
+
+    body.dark th {
+      background-color: #3a3a3a;
+      color: #f0f0f0;
+    }
+
+    body.dark td {
+      border-color: #555;
+      color: #f0f0f0;
+    }
+
+    body.dark .editable-div,
+    body.dark input[type="date"],
+    body.dark select.subject-main,
+    body.dark select.subject-branch {
+      background-color: #333 !important;
+      color: #f0f0f0 !important;
+      border-color: #666;
+    }
+
+    body.dark select option {
+      background-color: #333;
+      color: #f0f0f0;
+    }
+
+    /* Progress row colors for dark mode */
+    body.dark tr.progress-red { background-color: #441111 !important; }
+    body.dark tr.progress-yellow { background-color: #444011 !important; }
+    body.dark tr.progress-green { background-color: #1e4020 !important; }
+
+    body.dark tbody:not(.remove-mode) tr:hover {
+      background-color: #2a2a2a;
+    }
+
+    body.dark .buttons-container button,
+    body.dark #toggle-mode-btn {
+      background-color: #333;
+      color: #f0f0f0;
+      border: 1.5px solid #999;
+    }
+
+    body.dark .buttons-container button:hover,
+    body.dark #toggle-mode-btn:hover {
+      background-color: #444;
+    }
+  </style></head>
 <body>
 
   <img src="header.png" id="play-header" alt="Header" />
 
   <div class="container">
+<div style="text-align: right; padding-right: 20px; padding-bottom: 10px;">
+ </div>
+  <div class="table-wrapper">
     <table>
       <thead>
         <tr>
@@ -259,11 +398,28 @@
     </table>
 
     <div class="buttons-container">
-      <button id="add-task-btn">Add Task</button>
-      <button id="remove-task-btn">Remove Task</button>
+      <button id="add-task-btn">Add</button>
+      <button id="remove-task-btn">Remove</button>
+<select id="filter-subjects" class="subject-filter">
+  <option value="">Filter Subjects</option>
+  <option value="English">English</option>
+  <option value="Filipino">Filipino</option>
+  <option value="Mathematics">Mathematics</option>
+  <option value="A.P.">A.P.</option>
+  <option value="Electronics">Electronics</option>
+  <option value="C.A.T.">C.A.T.</option>
+  <option value="Science">Science</option>
+  <option value="Research">Research</option>
+  <option value="Journalism">Journalism</option>
+  <option value="E.S.P.">E.S.P.</option>
+  <option value="MAPEH">MAPEH</option>
+  <option value="Extracurriculars">Extracurriculars</option>
+</select> <button id="toggle-mode-btn" class="theme-toggle">🌙</button>
     </div>
   </div>
 <br><br><br><br>
+
+
   <script>
   const subjects = [
     { name: "", color: "#ffffff" },
@@ -440,18 +596,40 @@
     });
   }
 
-  function updateSubjectColors(row) {
-    const subjectSelect = row.querySelector("select.subject-main");
-    if (!subjectSelect) return;
-    const subjectName = subjectSelect.value;
-    const subjectData = subjects.find(s => s.name === subjectName);
-    subjectSelect.style.backgroundColor = subjectData?.color || "white";
-    row.style.backgroundColor = "white";
-    const branchSelect = row.querySelector("select.subject-branch");
-    if (branchSelect) {
-      branchSelect.style.backgroundColor = "#ffffcc";
-    }
+ function updateSubjectColors(row) {
+  const subjectSelect = row.querySelector("select.subject-main");
+  if (!subjectSelect) return;
+  const subjectName = subjectSelect.value;
+  const subjectData = subjects.find(s => s.name === subjectName);
+
+  const isDark = document.body.classList.contains("dark");
+  const darkMap = {
+    "#cce6ff": "#264a66",   // English
+    "#b3ecb3": "#1e4020",   // Filipino
+    "#99cc99": "#265026",   // Math
+    "#ff9999": "#663333",   // AP
+    "#b399cc": "#4b3b66",   // Electronics
+    "#cc9966": "#5c3f1e",   // CAT
+    "#ffcc80": "#664c26",   // Science
+    "#99bbff": "#334466",   // Research
+    "#b3b3b3": "#3a3a3a",   // Journalism
+    "#fbe4d6": "#5a4336",   // ESP
+    "#ffffcc": "#4f4f26",   // MAPEH
+    "#d9d9d9": "#444",      // Extra
+    "#ffffff": "#333"
+  };
+
+  subjectSelect.style.backgroundColor = isDark
+    ? darkMap[subjectData?.color || "#ffffff"]
+    : subjectData?.color || "white";
+
+  row.style.backgroundColor = isDark ? "#2a2a2a" : "white";
+
+  const branchSelect = row.querySelector("select.subject-branch");
+  if (branchSelect) {
+    branchSelect.style.backgroundColor = isDark ? "#4f4f26" : "#ffffcc";
   }
+}
 
   function saveTasks() {
     const rows = tasksTbody.querySelectorAll("tr");
@@ -508,23 +686,66 @@
     saveTasks();
   });
 
-  removeTaskBtn.addEventListener("click", () => {
-    removeMode = !removeMode;
-    tasksTbody.classList.toggle("remove-mode", removeMode);
-    removeTaskBtn.style.backgroundColor = removeMode ? "#ffcccc" : "";
-  });
+removeTaskBtn.addEventListener("click", () => {
+  removeMode = !removeMode;
+  tasksTbody.classList.toggle("remove-mode", removeMode);
 
+  if (removeMode) {
+    if (document.body.classList.contains("dark")) {
+      removeTaskBtn.style.backgroundColor = "#481414";  // dark mode bg color
+      removeTaskBtn.style.color = "white";               // text color for contrast
+    } else {
+      removeTaskBtn.style.backgroundColor = "#ffcccc";  // light mode bg color
+      removeTaskBtn.style.color = "";                     // default text color
+    }
+  } else {
+    // Reset to default colors when remove mode off
+    removeTaskBtn.style.backgroundColor = "";
+    removeTaskBtn.style.color = "";
+  }
+});
   const audioFiles = ["coconutmall.mp3", "subwaysurfers.mp3", "minuet.mp3", "lmfftclap.mp3"];
   let audio = new Audio();
-    audio.volume = 0.45
 
   document.getElementById("play-header").addEventListener("click", () => {
     const randomSrc = audioFiles[Math.floor(Math.random() * audioFiles.length)];
     audio.src = randomSrc;
+audio.volume = 0.5;
     audio.play().catch(e => console.log("Audio play failed:", e));
   });
 
   loadTasks();
+
+const toggleModeBtn = document.getElementById("toggle-mode-btn");
+const playHeader = document.getElementById("play-header");
+
+function setDarkMode(enabled) {
+  document.body.classList.toggle("dark", enabled);
+  playHeader.src = enabled ? "darkheader.png" : "header.png";
+  toggleModeBtn.textContent = enabled ? "☀️" : "🌙";
+  updateAllSubjectColors();
+  saveDarkMode(enabled);
+}
+
+function saveDarkMode(enabled) {
+  localStorage.setItem("darkMode", enabled ? "1" : "0");
+}
+
+function loadDarkMode() {
+  const enabled = localStorage.getItem("darkMode") === "1";
+  setDarkMode(enabled);
+}
+
+toggleModeBtn.addEventListener("click", () => {
+  const isDark = document.body.classList.contains("dark");
+  setDarkMode(!isDark);
+});
+
+function updateAllSubjectColors() {
+  tasksTbody.querySelectorAll("tr").forEach(updateSubjectColors);
+}
+
+loadDarkMode();
 
   function updateRowNumbers() {
     const rows = tasksTbody.querySelectorAll("tr");
@@ -533,6 +754,19 @@
       numberCell.textContent = String(i + 1).padStart(3, '0');
     });
   }
+
+document.getElementById("filter-subjects").addEventListener("change", function () {
+  const selected = this.value;
+  const rows = tasksTbody.querySelectorAll("tr");
+
+  rows.forEach(row => {
+    const subjectSelect = row.querySelector("select.subject-main");
+    const subject = subjectSelect ? subjectSelect.value : "";
+
+    row.style.display = (!selected || subject === selected) ? "" : "none";
+  });
+});
+
   </script>
 
 </body>
