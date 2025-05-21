@@ -516,6 +516,7 @@
 
   const audioFiles = ["coconutmall.mp3", "subwaysurfers.mp3", "minuet.mp3", "lmfftclap.mp3"];
   let audio = new Audio();
+    audio.volume = 0.45
 
   document.getElementById("play-header").addEventListener("click", () => {
     const randomSrc = audioFiles[Math.floor(Math.random() * audioFiles.length)];
