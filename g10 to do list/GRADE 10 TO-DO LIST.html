@@ -5,13 +5,101 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Grade 10's TO-DO LIST</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-<link rel="icon" href="scihi.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet"><link rel="icon" href="scihi.png" type="image/png">
  <style>
+ .confetti {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: red;
+  animation: confetti-fall 2s linear forwards;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+@keyframes confetti-fall {
+  to {
+    transform: translateX(var(--translateX)) translateY(100vh) rotate(var(--rotate));
+    opacity: 0;
+  }
+}
+
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 20px;
       background-color: #fff;
+    }
+
+   #popup-container {
+      position: fixed;
+      bottom: 600px;
+      left: -150px; 
+      width: 120px;
+      transition: left 1s ease; 
+    }
+
+    .popup {
+      position: relative;
+      width: fit-content;
+    }
+
+    .popup img {
+      width: 80px;
+      border-radius: 10px;
+      display: block;
+      transform: rotate(90deg);
+      margin-left: -21px;
+    }
+
+.chat {
+  position: absolute;
+  top: -10px;
+  right: -15px;
+  background: white; 
+  color: black;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-family: 'Noto Serif KR', serif;
+  font-size: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  border: none;
+white-space: nowrap;
+}
+
+body.dark .chat {
+  background: black;
+  color: white;
+  border: 1px solid white;
+}
+
+    .chat::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 10px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: white transparent transparent transparent;
+}
+
+ .cursor-pet {
+      position: fixed;
+      width: 55px;
+      height: 40px;
+      pointer-events: none; /* Allows clicking through the pet */
+      z-index: 9999;
+      transition: transform 0.1s linear; /* smooth follow */
+    }
+
+ .hidden-spot {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 50px;
+      height: 50px;
+      opacity: 0; /* invisible but clickable */
     }
 
 .subject-filter {
@@ -417,10 +505,101 @@ body.dark select.subject-branch option {
 </select> <button id="toggle-mode-btn" class="theme-toggle">🌙</button>
     </div>
   </div>
+<div id="popup-container"></div>
+<div class="hidden-spot"></div>
 <br><br><br><br>
 
 
   <script>
+  const pets = [
+    'soobin.gif',
+'woozi.gif'
+  ];
+
+  document.querySelector('.hidden-spot').addEventListener('click', activateCursorPet);
+
+function activateCursorPet() {
+  const petImg = pets[Math.floor(Math.random() * pets.length)];
+  const pet = document.createElement('img');
+  pet.src = petImg;
+  pet.classList.add('cursor-pet');
+  document.body.appendChild(pet);
+
+  document.addEventListener('mousemove', function movePet(e) {
+    pet.style.left = (e.clientX + 10) + 'px';
+    pet.style.top = (e.clientY + 10) + 'px';
+  });
+
+  document.querySelector('.hidden-spot').removeEventListener('click', activateCursorPet);
+
+    console.log('🐾 Pet activated!');
+  }
+
+const phrases = ["안녕하세요", "화이팅!", "잘 해...", "행운을 빌어요", "응원할게", "Hi! ^^", "Fighting!", "Good Luck!", "Cheers! <3"];
+const images = [
+ "choi yong meong.png",
+ "hwang choon.png",
+ "bamgeut.png",
+ "da-go-nyang.png",
+ "hmm nya ring.png",
+ "bongbongie.png",
+ "ppyopuli.png",
+ "chandalee.png"
+ ];
+
+const container = document.getElementById('popup-container');
+
+function showPopup() {
+  const imgSrc = images[Math.floor(Math.random() * images.length)];
+  const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+
+  container.innerHTML = `
+    <div class="popup">
+      <img src="${imgSrc}" alt="Photo" class="popup-img">
+      <div class="chat">${phrase}</div>
+    </div>
+  `;
+
+  container.style.left = "20px";
+
+  const img = container.querySelector('.popup-img');
+  if (imgSrc === "choi yong meong.png") {
+    img.addEventListener('click', throwConfetti);
+  }
+
+  setTimeout(() => {
+    container.style.left = "-150px";
+  }, 5000);
+}
+
+function throwConfetti() {
+  for (let i = 0; i < 100; i++) {
+    const confetti = document.createElement('div');
+    confetti.classList.add('confetti');
+    confetti.style.left = Math.random() * window.innerWidth + 'px';
+    confetti.style.top = '-20px';
+    confetti.style.backgroundColor = 'hsl(' + Math.random() * 360 + ', 100%, 50%)';
+    confetti.style.width = Math.random() * 8 + 4 + 'px';
+    confetti.style.height = confetti.style.width;
+    confetti.style.opacity = Math.random() + 0.5;
+
+    const rotate = Math.random() * 720 + 360; 
+    const translateX = (Math.random() - 0.5) * 200;
+    const duration = Math.random() * 1 + 1.5;
+
+    confetti.style.animation = `confetti-fall ${duration}s ease-out forwards`;
+
+
+    confetti.style.setProperty('--translateX', `${translateX}px`);
+    confetti.style.setProperty('--rotate', `${rotate}deg`);
+
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), duration * 1000);
+  }
+}
+showPopup();
+setInterval(showPopup, 7000);
+
   const subjects = [
     { name: "", color: "#ffffff" },
     { name: "English", color: "#cce6ff" },
@@ -615,7 +794,7 @@ body.dark select.subject-branch option {
     "#b3b3b3": "#3a3a3a",   // Journalism
     "#fbe4d6": "#5a4336",   // ESP
     "#ffffcc": "#4f4f26",   // MAPEH
-    "#d9d9d9": "#444",      // Extra
+    "#d9d9d9": "#444",      // Extracurriculars
     "#ffffff": "#333"
   };
 
@@ -692,19 +871,18 @@ removeTaskBtn.addEventListener("click", () => {
 
   if (removeMode) {
     if (document.body.classList.contains("dark")) {
-      removeTaskBtn.style.backgroundColor = "#481414";  // dark mode bg color
-      removeTaskBtn.style.color = "white";               // text color for contrast
+      removeTaskBtn.style.backgroundColor = "#481414";  
+      removeTaskBtn.style.color = "white";              
     } else {
-      removeTaskBtn.style.backgroundColor = "#ffcccc";  // light mode bg color
-      removeTaskBtn.style.color = "";                     // default text color
+      removeTaskBtn.style.backgroundColor = "#ffcccc";
+      removeTaskBtn.style.color = "";                    
     }
   } else {
-    // Reset to default colors when remove mode off
     removeTaskBtn.style.backgroundColor = "";
     removeTaskBtn.style.color = "";
   }
 });
-  const audioFiles = ["txt_dejavuanemoiaremix.mp3", "coconutmall.mp3", "subwaysurfers.mp3", "minuet.mp3"];
+  const audioFiles = ["coconutmall.mp3", "subwaysurfers.mp3", "minuet.mp3", "lmfftclap.mp3"];
   let audio = new Audio();
 
   document.getElementById("play-header").addEventListener("click", () => {
