@@ -506,6 +506,7 @@ body.dark select.subject-branch option {
     </div>
   </div>
 <div id="popup-container"></div>
+<audio id="bamgeut-audio" src="piak piak beomari.mp3"></audio>
 <div class="hidden-spot"></div>
 <br><br><br><br>
 
@@ -548,6 +549,16 @@ const images = [
  ];
 
 const container = document.getElementById('popup-container');
+const bamgeutAudio = document.getElementById('bamgeut-audio');
+
+container.addEventListener('click', function(e) {
+  const img = e.target.closest('img');
+  if (img && img.src.includes('bamgeut.png')) {
+    bamgeutAudio.volume = 0.5;      
+    bamgeutAudio.currentTime = 0;  
+    bamgeutAudio.play();        
+  }
+});
 
 function showPopup() {
   const imgSrc = images[Math.floor(Math.random() * images.length)];
