@@ -507,6 +507,16 @@ body.dark select.subject-branch option {
   </div>
 <div id="popup-container"></div>
 <audio id="bamgeut-audio" src="piak piak beomari.mp3"></audio>
+<div id="todo-popup" style="
+  display: none;
+  position: fixed;
+  top: 20%;
+  left: 60.5%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+">
+  <img src="todo.png" alt="Todo Popup" style="width: 450px">
+</div>
 <div class="hidden-spot"></div>
 <br><br><br><br>
 
@@ -538,7 +548,7 @@ function activateCursorPet() {
 
 const phrases = ["안녕하세요", "화이팅!", "잘 해...", "행운을 빌어요", "응원할게", "Hi! ^^", "Fighting!", "Good Luck!", "Cheers! <3"];
 const images = [
- "choi yong meong.png",
+"choi yong meong.png",
  "hwang choon.png",
  "bamgeut.png",
  "da-go-nyang.png",
@@ -582,6 +592,21 @@ function showPopup() {
     container.style.left = "-150px";
   }, 5000);
 }
+const todoPopup = document.getElementById('todo-popup');
+
+container.addEventListener('click', function(e) {
+  const img = e.target.closest('img');
+  if (!img) return;
+
+  if (img.src.includes('da-go-nyang.png')) {
+    todoPopup.style.display = 'block';
+
+    setTimeout(() => {
+      todoPopup.style.display = 'none';
+    }, 60000);
+  }
+});
+
 
 function throwConfetti() {
   for (let i = 0; i < 100; i++) {
